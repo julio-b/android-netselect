@@ -1,0 +1,388 @@
+public class ergasia{
+
+	public static void trapezoidalFuzzyTopsis(){
+		System.out.println("Trapezoidal Fuzzy Topsis Run");
+
+		//Table 1 - criteriaValues
+		double[][] cV = new double[][] {
+			{0,    0,    0,    0,    0.8},{0,    0,    0,    0,    1}, //Absolutely Poor (AP)
+			{0.01, 0.02, 0.03, 0.07, 0.8},{0,    0.01, 0.05, 0.08, 1}, //Very Poor (VP)
+			{0.04, 0.1,  0.18, 0.23, 0.8},{0.02, 0.08, 0.2,  0.25, 1}, //Poor (P)
+			{0.17, 0.22, 0.36, 0.42, 0.8},{0.14, 0.18, 0.38, 0.45, 1}, //Medium Poor (MP)
+			{0.32, 0.41, 0.58, 0.65, 0.8},{0.28, 0.38, 0.6,  0.7,  1}, //Medium (M)
+			{0.58, 0.63, 0.8,  0.86, 0.8},{0.5,  0.6,  0.9,  0.92, 1}, //Medium Good (MG)
+			{0.72, 0.78, 0.92, 0.97, 0.8},{0.7,  0.75, 0.95, 0.98, 1}, //Good (G)
+			{0.93, 0.98, 1,    1,    0.8},{0.9,  0.95, 1,    1,    1}, //Very Good (VG)
+			{1,    1,    1,    1,    0.8},{1,    1,    1,    1,    1}  //Absolutely Good (AG)
+		};
+
+		System.out.printf("%f%n", cV[0][0]);
+
+		//Table 3
+		double[][] criterionImportance= new double[][] {
+			{ 0.0078125,  0.0078125,  0.0078125,  0.0078125,  0.0078125,
+			  0.0078125,  0.0078125,  0.0078125,  0.0078125,  0.0078125 }, //C1 - Bandwidth
+			{ 0.164062,   0.164062,   0.164062,   0.164062,   0.164062,
+			  0.164062,   0.164062,   0.164062,   0.164062,   0.164062 },  //C2 - Delay
+			{ 0.164062,   0.164062,   0.164062,   0.164062,   0.164062,
+			  0.164062,   0.164062,   0.164062,   0.164062,   0.164062 },  //C3 - Jitter
+			{ 0.164062,   0.164062,   0.164062,   0.164062,   0.164062,
+			  0.164062,   0.164062,   0.164062,   0.164062,   0.164062 },  //C4 - Packet loss
+			{ 0.0246573,  0.0246573,  0.0246573,  0.0246573,  0.0246573,
+			  0.0246573,  0.0246573,  0.0246573,  0.0246573,  0.0246573 }, //C5 - Price
+			{ 0.470224,   0.470224,   0.470224,   0.470224,   0.470224,
+			  0.470224,   0.470224,   0.470224,   0.470224,   0.470224 },  //C6 - Service flexibility
+			{ 0.00511916, 0.00511916, 0.00511916, 0.00511916, 0.00511916,
+			  0.00511916, 0.00511916, 0.00511916, 0.00511916, 0.00511916 }  //C7 - Security
+		};
+
+		System.out.printf("%f%n", criterionImportance[0][0]);
+
+		//Table 4
+		double[][] cvaluesPerNet= new double[][] {
+			{cV[10][0], cV[10][1], cV[10][2], cV[10][3], cV[10][4], cV[11][0], cV[11][1], cV[11][2], cV[11][3], cV[11][4]}, //C1A1  MG - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C1A2  AG - VoIP DM
+			{cV[8][0],  cV[8][1],  cV[8][2],  cV[8][3],  cV[8][4],  cV[9][0],  cV[9][1],  cV[9][2],  cV[9][3],  cV[9][4]},  //C1A3  M - VoIP DM
+			{cV[12][0], cV[12][1], cV[12][2], cV[12][3], cV[12][4], cV[13][0], cV[13][1], cV[13][2], cV[13][3], cV[13][4]}, //C1A4  G - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C1A5  VG - VoIP DM
+			{cV[10][0], cV[10][1], cV[10][2], cV[10][3], cV[10][4], cV[11][0], cV[11][1], cV[11][2], cV[11][3], cV[11][4]}, //C1A6  MG - VoIP DM
+			{cV[8][0],  cV[8][1],  cV[8][2],  cV[8][3],  cV[8][4],  cV[9][0],  cV[9][1],  cV[9][2],  cV[9][3],  cV[9][4]},  //C1A7  M - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C2A1  AG - VoIP DM
+			{cV[10][0], cV[10][1], cV[10][2], cV[10][3], cV[10][4], cV[11][0], cV[11][1], cV[11][2], cV[11][3], cV[11][4]}, //C2A2  MG - VoIP DM
+			{cV[8][0],  cV[8][1],  cV[8][2],  cV[8][3],  cV[8][4],  cV[9][0],  cV[9][1],  cV[9][2],  cV[9][3],  cV[9][4]},  //C2A3  M - VoIP DM
+			{cV[12][0], cV[12][1], cV[12][2], cV[12][3], cV[12][4], cV[13][0], cV[13][1], cV[13][2], cV[13][3], cV[13][4]}, //C2A4  G - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C2A5  VG - VoIP DM
+			{cV[8][0],  cV[8][1],  cV[8][2],  cV[8][3],  cV[8][4],  cV[9][0],  cV[9][1],  cV[9][2],  cV[9][3],  cV[9][4]},  //C2A6  M - VoIP DM
+			{cV[6][0],  cV[6][1],  cV[6][2],  cV[6][3],  cV[6][4],  cV[7][0],  cV[7][1],  cV[7][2],  cV[7][3],  cV[7][4]},  //C2A7  MP - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C3A1  VG - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C3A2  AG - VoIP DM
+			{cV[6][0],  cV[6][1],  cV[6][2],  cV[6][3],  cV[6][4],  cV[7][0],  cV[7][1],  cV[7][2],  cV[7][3],  cV[7][4]},  //C3A3  MP - VoIP DM
+			{cV[12][0], cV[12][1], cV[12][2], cV[12][3], cV[12][4], cV[13][0], cV[13][1], cV[13][2], cV[13][3], cV[13][4]}, //C3A4  G - VoIP DM
+			{cV[10][0], cV[10][1], cV[10][2], cV[10][3], cV[10][4], cV[11][0], cV[11][1], cV[11][2], cV[11][3], cV[11][4]}, //C3A5  MG - VoIP DM
+			{cV[10][0], cV[10][1], cV[10][2], cV[10][3], cV[10][4], cV[11][0], cV[11][1], cV[11][2], cV[11][3], cV[11][4]}, //C3A6  MG - VoIP DM
+			{cV[8][0],  cV[8][1],  cV[8][2],  cV[8][3],  cV[8][4],  cV[9][0],  cV[9][1],  cV[9][2],  cV[9][3],  cV[9][4]},  //C3A7  M - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C4A1  VG - VoIP DM
+			{cV[10][0], cV[10][1], cV[10][2], cV[10][3], cV[10][4], cV[11][0], cV[11][1], cV[11][2], cV[11][3], cV[11][4]}, //C4A2  MG - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C4A3  AG - VoIP DM
+			{cV[12][0], cV[12][1], cV[12][2], cV[12][3], cV[12][4], cV[13][0], cV[13][1], cV[13][2], cV[13][3], cV[13][4]}, //C4A4  G - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C4A5  AG - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C4A6  VG - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C4A7  AG - VoIP DM
+			{cV[2][0],  cV[2][1],  cV[2][2],  cV[2][3],  cV[2][4],  cV[3][0],  cV[3][1],  cV[3][2],  cV[3][3],  cV[3][4]},  //C5A1  VP - VoIP DM
+			{cV[2][0],  cV[2][1],  cV[2][2],  cV[2][3],  cV[2][4],  cV[3][0],  cV[3][1],  cV[3][2],  cV[3][3],  cV[3][4]},  //C5A2  VP - VoIP DM
+			{cV[4][0],  cV[4][1],  cV[4][2],  cV[4][3],  cV[4][4],  cV[5][0],  cV[5][1],  cV[5][2],  cV[5][3],  cV[5][4]},  //C5A3  P - VoIP DM
+			{cV[4][0],  cV[4][1],  cV[4][2],  cV[4][3],  cV[4][4],  cV[5][0],  cV[5][1],  cV[5][2],  cV[5][3],  cV[5][4]},  //C5A4  P - VoIP DM
+			{cV[6][0],  cV[6][1],  cV[6][2],  cV[6][3],  cV[6][4],  cV[7][0],  cV[7][1],  cV[7][2],  cV[7][3],  cV[7][4]},  //C5A5  MP - VoIP DM
+			{cV[6][0],  cV[6][1],  cV[6][2],  cV[6][3],  cV[6][4],  cV[7][0],  cV[7][1],  cV[7][2],  cV[7][3],  cV[7][4]},  //C5A6  MP - VoIP DM
+			{cV[6][0],  cV[6][1],  cV[6][2],  cV[6][3],  cV[6][4],  cV[7][0],  cV[7][1],  cV[7][2],  cV[7][3],  cV[7][4]},  //C5A7  MP - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C6A1  AG - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C6A2  VG - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C6A3  VG - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C6A4  AG - VoIP DM
+			{cV[12][0], cV[12][1], cV[12][2], cV[12][3], cV[12][4], cV[13][0], cV[13][1], cV[13][2], cV[13][3], cV[13][4]}, //C6A5  G - VoIP DM
+			{cV[10][0], cV[10][1], cV[10][2], cV[10][3], cV[10][4], cV[11][0], cV[11][1], cV[11][2], cV[11][3], cV[11][4]}, //C6A6  MG - VoIP DM
+			{cV[12][0], cV[12][1], cV[12][2], cV[12][3], cV[12][4], cV[13][0], cV[13][1], cV[13][2], cV[13][3], cV[13][4]}, //C6A7  G - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C7A1  VG - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C7A2  AG - VoIP DM
+			{cV[16][0], cV[16][1], cV[16][2], cV[16][3], cV[16][4], cV[17][0], cV[17][1], cV[17][2], cV[17][3], cV[17][4]}, //C7A3  AG - VoIP DM
+			{cV[14][0], cV[14][1], cV[14][2], cV[14][3], cV[14][4], cV[15][0], cV[15][1], cV[15][2], cV[15][3], cV[15][4]}, //C7A4  VG - VoIP DM
+			{cV[12][0], cV[12][1], cV[12][2], cV[12][3], cV[12][4], cV[13][0], cV[13][1], cV[13][2], cV[13][3], cV[13][4]}, //C7A5  G - VoIP DM
+			{cV[10][0], cV[10][1], cV[10][2], cV[10][3], cV[10][4], cV[11][0], cV[11][1], cV[11][2], cV[11][3], cV[11][4]}, //C7A6  MG - VoIP DM
+			{cV[12][0], cV[12][1], cV[12][2], cV[12][3], cV[12][4], cV[13][0], cV[13][1], cV[13][2], cV[13][3], cV[13][4]}  //C7A7  G - VoIP DM
+		};
+
+		System.out.printf("%f%n", cvaluesPerNet[0][0]);
+
+		//Table 5 - decision matrix
+		double[][] decisionMatrix= new double[8][70]; //8: 7 alternatives and 1 row for weights, 70 : 7 criteria and 10 values per criterion
+		int k = 0, l = 0, column = 1;
+		for (int i = 0; i < 49; i++) { //49 : 7 criteria and 7 alternatives
+			for (int j = 0; j < 10; j++) { //10 values per fuzzy number
+				decisionMatrix[k][l] = (
+						( cvaluesPerNet[i][j]        //DM1
+						//+ cvaluesPerNet[i][j + 10]   //DM2
+						//+ cvaluesPerNet[i][j + 20]   //DM3
+						//+ cvaluesPerNet[i][j + 30]   //DM4
+						) / 1                        //The DMs count
+				);
+				System.out.printf("%d%d: %f%n", k, l, decisionMatrix[k][l]);
+
+				l++;
+				if (l == 10 && column == 1) {
+					k++;
+					l = 0;
+				}
+				if (k == 7 && column == 1) {
+					l = 10;
+					k = 0;
+					column = 2;
+				}
+				if (l == 20 && column == 2) {
+					k++;
+					l = 10;
+				}
+				if (k == 7 && column == 2) {
+					l = 20;
+					k = 0;
+					column = 3;
+				}
+				if (l == 30 && column == 3) {
+					k++;
+					l = 20;
+				}
+				if (k == 7 && column == 3) {
+					l = 30;
+					k = 0;
+					column = 4;
+				}
+				////////////////////////////////
+				if (l == 40 && column == 4) {
+					k++;
+					l = 30;
+				}
+				if (k == 7 && column == 4) {
+					l = 40;
+					k = 0;
+					column = 5;
+				}
+				if (l == 50 && column == 5) {
+					k++;
+					l = 40;
+				}
+				if (k == 7 && column == 5) {
+					l = 50;
+					k = 0;
+					column = 6;
+				}
+				if (l == 60 && column == 6) {
+					k++;
+					l = 50;
+				}
+				if (k == 7 && column == 6) {
+					l = 60;
+					k = 0;
+					column = 7;
+				}
+				////////////////////////////////
+				if (l == 70 && column == 7) {
+					k++;
+					l = 60;
+				}
+				/*
+				if (k == 4 && column == 4) {
+					l = 40;
+					k = 0;
+					column = 5;
+				}
+				if (l == 50 && column == 5) {
+					k++;
+					l = 40;
+				}
+				*/
+			}
+		}
+
+		k = 7;
+		l = 0;
+		for (int i = 0; i < 7; i++) { //7 criteria
+			for (int j = 0; j < 10; j++) { //10 values per fuzzy number
+				decisionMatrix[k][l] = (
+						( criterionImportance[i][j]         //DM1
+						//+ criterionImportance[i][j + 10]    //DM2
+						//+ criterionImportance[i][j + 20]    //DM3
+						//+ criterionImportance[i][j + 30])   //DM4
+						) / 1                               //The DMs count
+				);
+				System.out.printf("%d%d: %f%n", k, l, decisionMatrix[k][l]);
+				l++;
+			}
+		}
+
+		/*
+		System.out.println("----------------------------");
+		for (int i = 0; i < 8; i++) {
+			System.out.println("|"+i+"| ");
+			for (int j = 0; j < 70; j++) {
+				System.out.print(decisionMatrix[i][j] + " ");
+				if (j % 5 == 4 ){
+					System.out.print("}");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println("----------------------------");
+		*/
+
+		/*
+		System.out.println("----------------------------");
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 50; j++) {
+				System.out.println(i + "-" + j + ": " + decisionMatrix[i][j]);
+			}
+		}
+		*/
+
+		double[] maxDs = new double[] {
+				decisionMatrix[0][3],
+				decisionMatrix[0][13],
+				decisionMatrix[0][23],
+				decisionMatrix[0][33],
+				decisionMatrix[0][43],
+				decisionMatrix[0][53],
+				decisionMatrix[0][63]
+		};
+
+		double[] maxDsT = new double[] {
+				decisionMatrix[0][8],
+				decisionMatrix[0][18],
+				decisionMatrix[0][28],
+				decisionMatrix[0][38],
+				decisionMatrix[0][48],
+				decisionMatrix[0][58],
+				decisionMatrix[0][68]
+		};
+
+		double[] minAs = new double[] {
+				decisionMatrix[0][0],
+				decisionMatrix[0][10],
+				decisionMatrix[0][20],
+				decisionMatrix[0][30],
+				decisionMatrix[0][40],
+				decisionMatrix[0][50],
+				decisionMatrix[0][60]
+		};
+
+		double[] minAsT = new double[] {
+				decisionMatrix[0][5],
+				decisionMatrix[0][15],
+				decisionMatrix[0][25],
+				decisionMatrix[0][35],
+				decisionMatrix[0][45],
+				decisionMatrix[0][55],
+				decisionMatrix[0][65]
+		};
+
+		for (int i = 1; i < 7; i++) {
+			for (int j = 0; j < 7; j++) { //criteria count
+				if (maxDs[j] < decisionMatrix[i][j * 10 + 3])
+					maxDs[j] = decisionMatrix[i][j * 10 + 3];
+				if (maxDsT[j] < decisionMatrix[i][j * 10 + 8])
+					maxDsT[j] = decisionMatrix[i][j * 10 + 8];
+				if (minAs[j] > decisionMatrix[i][j * 10])
+					minAs[j] = decisionMatrix[i][j * 10];
+				if (minAsT[j] > decisionMatrix[i][j * 10 + 5])
+					minAsT[j] = decisionMatrix[i][j * 10 + 5];
+			}
+		}
+
+		for (int j = 0; j < 7; j++) {
+			System.out.printf("maxcs %f : minAs %f%n", maxDs[j], minAs[j]);
+		}
+
+		//Table 6 - Normalized decision matrix
+		double[] criteria = new double[]{1,1,1,1,1,1,1};
+		System.out.printf("%f%n", criteria[0]);
+
+		double[][] normalizedDM = new double[7][70]; //Table 6 , 7 alternatives, 70 : 7 criteria and 10 values per criterion
+		for (int j = 0; j < 70; j++) {
+			System.out.println("|" + j+ "|");
+			for (int i = 0; i < 7; i++) {
+				if (criteria[(int)(j / 10)] == 1) {//if criterion is positive
+					if (j < 35) { //for the internal trapezoid
+						normalizedDM[i][j] = decisionMatrix[i][j] / maxDs[(int)(j / 10)];
+						System.out.print("I");
+					} else { //for the external trapezoid
+						normalizedDM[i][j] = decisionMatrix[i][j] / maxDsT[(int)(j / 10)];
+						System.out.print("E");
+					}
+				} else {//criterion is negative
+					if (j < 35) { //for the internal trapezoid
+						normalizedDM[i][j] = minAs[(int)(j / 10)] / decisionMatrix[i][j];
+					} else { //for the external trapezoid
+						normalizedDM[i][j] = minAsT[(int)(j / 10)] / decisionMatrix[i][j];
+					}
+				}
+				System.out.printf("%f#%f ", decisionMatrix[i][j], normalizedDM[i][j]);
+				//System.out.printf("ndm i %d - j %d : %f%n", i, j, normalizedDM[i][j]);
+			}
+			System.out.println();
+		}
+
+		//Table 7 - Weighted normalized decision matrix
+		double[][] wNormDM = new double[7][70]; //7 alternatives, 70 : 7 criteria and 10 values per criterion
+		for (int i = 0; i < 7; i++) {
+			for(int j = 0; j < 70; j++) {
+				wNormDM[i][j] = normalizedDM[i][j] * decisionMatrix[7][j];
+				System.out.printf("wndm i %d - j %d : %f%n", i, j, wNormDM[i][j]);
+			}
+		}
+
+		//Table 8 - Distance from ideal and negative ideal solutions
+		double[][] distances = new double[][]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+		for (int j = 0; j < 4; j++) {
+			for (int i = 0; i < 7; i++) { //alternatives
+				for (int c = 0; c < 7; c++) { //criteria
+					if (j == 0) {
+						distances[i][j] += Math.sqrt(
+								( Math.pow((wNormDM[i][c * 10    ] - 1), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 1] - 1), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 2] - 1), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 3] - 1), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 4] - 1), 2)
+								) / 5
+							);
+					} else if (j == 1) {
+						distances[i][j] += Math.sqrt(
+								( Math.pow((wNormDM[i][c * 10 + 5] - 1), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 6] - 1), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 7] - 1), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 8] - 1), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 9] - 1), 2)
+								) / 5
+							);
+					} else if (j == 2) {
+						distances[i][j] += Math.sqrt(
+								( Math.pow((wNormDM[i][c * 10    ] - 0), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 1] - 0), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 2] - 0), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 3] - 0), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 4] - 0), 2)
+								) / 5
+							);
+					} else{ //j == 4
+						distances[i][j] += Math.sqrt(
+								( Math.pow((wNormDM[i][c * 10 + 5] - 0), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 6] - 0), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 7] - 0), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 8] - 0), 2)
+								+ Math.pow((wNormDM[i][c * 10 + 9] - 0), 2)
+								) / 5
+							);
+					}
+				}
+				System.out.printf("d%d,%d: %f%n", i, j, distances[i][j]);
+			}
+		}
+
+		//Table 9 - The interval of relative closeness
+		double[][] relativeCloseness = new double[7][2];
+		for (int i = 0; i < 7; i++) { //alternatives
+			relativeCloseness[i][0] = distances[i][2] / (distances[i][1] + distances[i][2]);
+			relativeCloseness[i][1] = distances[i][3] / (distances[i][0] + distances[i][3]);
+			System.out.printf("rc%d: %f , %f%n", i, relativeCloseness[i][0], relativeCloseness[i][1]);
+		}
+
+		//RC*
+		double[] rcStar = new double[7];
+		for (int i = 0; i < 7; i++) { //alternatives
+			rcStar[i] = (relativeCloseness[i][0] + relativeCloseness[i][1]) / 2;
+			System.out.printf("rc*%d: %f%n", i, rcStar[i]);
+		}
+
+	}
+
+	public static void main(String[] args) {
+		trapezoidalFuzzyTopsis();
+	}
+
+}
