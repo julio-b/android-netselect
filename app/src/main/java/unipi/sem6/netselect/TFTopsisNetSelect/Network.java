@@ -1,15 +1,15 @@
 package unipi.sem6.netselect.TFTopsisNetSelect;
 
-class Network {
+public class Network {
 	public String name;
 	public InterValFN[] criteria;
 
-	Network(String name, InterValFN[] criteria) {
+	public Network(String name, InterValFN[] criteria) {
 		this.name = name;
 		this.criteria = criteria;
 	}
 
-	Network(InterValFN[] criteria) {
+	public Network(InterValFN[] criteria) {
 		this(null, criteria);
 	}
 

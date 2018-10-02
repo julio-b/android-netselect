@@ -1,7 +1,7 @@
 package unipi.sem6.netselect.TFTopsisNetSelect;
 
 import java.util.*;
-class TFTopsisNetSelect {
+public class TFTopsisNetSelect {
 	public Vector<Network> D;
 	public Vector<Network> nD;
 	public double[] Weights;
@@ -15,7 +15,7 @@ class TFTopsisNetSelect {
 
 	public static final boolean DEBUG = false;
 
-	TFTopsisNetSelect(double [] Weights) {
+	public TFTopsisNetSelect(double [] Weights) {
 		this.D = new Vector<Network>();
 		this.Weights = Weights;
 		this.nD = null;

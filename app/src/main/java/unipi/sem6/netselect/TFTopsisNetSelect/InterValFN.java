@@ -1,6 +1,6 @@
 package unipi.sem6.netselect.TFTopsisNetSelect;
 
-class InterValFN{
+public class InterValFN{
 	public TrapezoidalFN A_L;
 	public TrapezoidalFN A_U;
 

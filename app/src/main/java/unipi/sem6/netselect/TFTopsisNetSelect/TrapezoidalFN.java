@@ -1,6 +1,6 @@
 package unipi.sem6.netselect.TFTopsisNetSelect;
 
-class TrapezoidalFN {
+public class TrapezoidalFN {
 	public double[] x;
 	public double v;
 
