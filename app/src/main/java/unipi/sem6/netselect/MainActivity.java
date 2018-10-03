@@ -78,10 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 listView = (ListView) findViewById(R.id.netlistview);
                 listView.setAdapter(adapter);
-
-                ListView valuesListView = (ListView) findViewById(R.id.values);
-                valuesListView.setAdapter(ivfnadapter);
-
                 Snackbar.make(view, "Running Net Select Test", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -101,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
         this.adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
 
+    }
+
+    public IntervalFuzzyNumAdapter getIvfnadapter() {
+        return ivfnadapter;
     }
 
     @Override
