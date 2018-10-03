@@ -19,14 +19,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TFTopsisNetSelect netsel = null;
     private ArrayList<String> list = null;
+    private ArrayList<InterValFN> values = null;
     private ArrayAdapter<String>  adapter = null;
+    private IntervalFuzzyNumAdapter ivfnadapter = null;
     private ListView listView = null;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+
+    private static double[] A(double ... args) {return args;} //eye-candy new double[]{x,y,z..}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+        this.values = new ArrayList<InterValFN>();
+        this.ivfnadapter = new IntervalFuzzyNumAdapter(this, values);
+
+
+        this.ivfnadapter.add(new InterValFN("AP", A(0,    0,    0,    0,    0.8), A(0,    0,    0,    0,    1)));
+        this.ivfnadapter.add(new InterValFN("VP", A(0.01, 0.02, 0.03, 0.07, 0.8), A(0,    0.01, 0.05, 0.08, 1)));
+        this.ivfnadapter.add(new InterValFN("P ", A(0.04, 0.1,  0.18, 0.23, 0.8), A(0.02, 0.08, 0.2,  0.25, 1)));
+        this.ivfnadapter.add(new InterValFN("MP", A(0.17, 0.22, 0.36, 0.42, 0.8), A(0.14, 0.18, 0.38, 0.45, 1)));
+        this.ivfnadapter.add(new InterValFN("M ", A(0.32, 0.41, 0.58, 0.65, 0.8), A(0.28, 0.38, 0.6,  0.7,  1)));
+        this.ivfnadapter.add(new InterValFN("MG", A(0.58, 0.63, 0.8,  0.86, 0.8), A(0.5,  0.6,  0.9,  0.92, 1)));
+        this.ivfnadapter.add(new InterValFN("G ", A(0.72, 0.78, 0.92, 0.97, 0.8), A(0.7,  0.75, 0.95, 0.98, 1)));
+        this.ivfnadapter.add(new InterValFN("VG", A(0.93, 0.98, 1,    1,    0.8), A(0.9,  0.95, 1,    1,    1)));
+        this.ivfnadapter.add(new InterValFN("AG", A(1,    1,    1,    1,    0.8), A(1,    1,    1,    1,    1)));
+
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 listView = (ListView) findViewById(R.id.netlistview);
                 listView.setAdapter(adapter);
+
+                ListView valuesListView = (ListView) findViewById(R.id.values);
+                valuesListView.setAdapter(ivfnadapter);
+
                 Snackbar.make(view, "Running Net Select Test", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

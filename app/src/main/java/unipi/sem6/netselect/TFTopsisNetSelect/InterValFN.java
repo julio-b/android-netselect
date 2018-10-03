@@ -1,8 +1,14 @@
 package unipi.sem6.netselect.TFTopsisNetSelect;
 
 public class InterValFN{
+	public String Linguistic_Term;
 	public TrapezoidalFN A_L;
 	public TrapezoidalFN A_U;
+
+	public InterValFN(String term, double[] A_L, double[] A_U) {
+		this(new TrapezoidalFN(A_L), new TrapezoidalFN(A_U));
+		this.Linguistic_Term = term;
+	}
 
 	public InterValFN(double[] A_L, double[] A_U) {
 		this(new TrapezoidalFN(A_L), new TrapezoidalFN(A_U));
