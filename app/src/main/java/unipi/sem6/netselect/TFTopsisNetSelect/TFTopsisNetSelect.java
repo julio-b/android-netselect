@@ -2,8 +2,8 @@ package unipi.sem6.netselect.TFTopsisNetSelect;
 
 import java.util.*;
 public class TFTopsisNetSelect {
-	public Vector<Network> D;
-	public Vector<Network> nD;
+	public ArrayList<Network> D;
+	public ArrayList<Network> nD;
 	public double[] Weights;
 	public double[] maxDs;
 	public double[] maxDsT;
@@ -16,7 +16,7 @@ public class TFTopsisNetSelect {
 	public static final boolean DEBUG = false;
 
 	public TFTopsisNetSelect(double [] Weights) {
-		this.D = new Vector<Network>();
+		this.D = new ArrayList<Network>();
 		this.Weights = Weights;
 		this.nD = null;
 		this.maxDs = null;
@@ -70,7 +70,10 @@ public class TFTopsisNetSelect {
 
 	//TODO negative criteria?
 	private void normalization() {
-		this.nD = new Vector<Network>(this.D); //clone
+		this.nD = new ArrayList<Network>();
+		for (Network n : this.D) { //clone D
+			this.nD.add(new Network(n));
+		}
 		for (Network n : this.nD) {
 			for (int j = 0; j < n.criteria.length; j++) {
 				//n.criteria[j] = n.criteria[j].mul(1/maxDsT[j], 1/maxDsT[j]);
@@ -141,6 +144,7 @@ public class TFTopsisNetSelect {
 		this.rcStar = new double[this.nD.size()];
 		for (int i = 0; i < this.nD.size(); i++) {
 			this.rcStar[i] = (this.relativeCloseness[i][0] + this.relativeCloseness[i][1]) / 2;
+			this.D.get(i).result = new Double(this.rcStar[i]);
 			if (DEBUG)
 				System.err.printf("rc*%s: %f%n", this.D.get(i), this.rcStar[i]);
 		}

@@ -26,6 +26,12 @@ public class InterValFN{
 		this.A_U = A_U;
 	}
 
+	public InterValFN(InterValFN n) {
+		this(new TrapezoidalFN(n.A_L), new TrapezoidalFN(n.A_U));
+		if (n.Linguistic_Term != null)
+			this.Linguistic_Term = new String(n.Linguistic_Term);
+	}
+
 	public InterValFN mul(double m) {
 		return new InterValFN(this.A_L.mul(m), this.A_U.mul(m));
 	}

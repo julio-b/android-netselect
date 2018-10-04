@@ -22,6 +22,10 @@ public class TrapezoidalFN {
 		this.v = v;
 	}
 
+	public TrapezoidalFN(TrapezoidalFN n) {
+		this(n.x, n.v);
+	}
+
 	public TrapezoidalFN mul(double x) {
 		return this.mul(x, x);
 	}
